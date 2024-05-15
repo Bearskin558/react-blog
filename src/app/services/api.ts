@@ -6,7 +6,7 @@ export const baseQuery = fetchBaseQuery({
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).user.token || localStorage.getItem('token');
     if (token) {
-      headers.set('authorizatiom', `Bearer ${token}`);
+      headers.set('authorization', `Bearer ${token}`);
     }
     return headers;
   },

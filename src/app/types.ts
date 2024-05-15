@@ -29,7 +29,7 @@ export type Follows = {
 export type Post = {
   id: string;
   content: string;
-  author: User;
+  author: { avatarUrl: string; name: string };
   authorId: string;
   likes: Like[];
   comments: Comment[];
