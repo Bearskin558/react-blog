@@ -10,7 +10,7 @@ export const likesApi = api.injectEndpoints({
         body,
       }),
     }),
-    unlikePost: builder.mutation({
+    unlikePost: builder.mutation<void, string>({
       query: (postId) => ({
         url: `/likes/${postId}`,
         method: 'DELETE',

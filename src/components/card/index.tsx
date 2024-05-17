@@ -1,7 +1,16 @@
 import React, { useState } from 'react';
 
-import { CardBody, CardFooter, CardHeader, Card as NextUiCard, Spinner } from '@nextui-org/react';
-import { useLikePostMutation, useUnlikePostMutation } from '../../app/services/likesApi';
+import {
+  CardBody,
+  CardFooter,
+  CardHeader,
+  Card as NextUiCard,
+  Spinner,
+} from '@nextui-org/react';
+import {
+  useLikePostMutation,
+  useUnlikePostMutation,
+} from '../../app/services/likesApi';
 import {
   useDeletePostMutation,
   useLazyGetAllPostsQuery,
@@ -33,7 +42,7 @@ type Props = {
   createdAt?: Date;
   id?: string;
   cardFor: 'comment' | 'post' | 'current-post';
-  likedByUser: boolean;
+  likedByUser?: boolean;
 };
 
 const Card: React.FC<Props> = ({
@@ -59,37 +68,35 @@ const Card: React.FC<Props> = ({
   const navigate = useNavigate();
   const currentUser = useSelector(selectCurrent);
 
-  // const refetchPosts = async () => {
-  //   switch (cardFor) {
-  //     case 'post':
-  //       await triggerGetAllPosts().unwrap();
-  //       break;
-  //     case 'current-post':
-  //       await triggerGetAllPosts().unwrap();
-  //       break;
-  //     case 'comment':
-  //       await triggerGetPostById(id).unwrap();
-  //       break;
-  //     default:
-  //       throw new Error('Неверный аргумент cardFor');
-  //   }
-  // };
+  const refetchPosts = async () => {
+    switch (cardFor) {
+      case 'post':
+        await triggerGetAllPosts().unwrap();
+        break;
+      case 'current-post':
+      case 'comment':
+        await triggerGetPostById(id).unwrap();
+        break;
+      default:
+        throw new Error('Неверный аргумент cardFor');
+    }
+  };
 
   const handleDelete = async () => {
     try {
       switch (cardFor) {
         case 'post':
           await deletePost(id).unwrap();
-          await triggerGetAllPosts().unwrap();
+          await refetchPosts();
           break;
         case 'current-post':
           await deletePost(id).unwrap();
-          await triggerGetAllPosts().unwrap();
+          await refetchPosts();
           navigate('/');
           break;
         case 'comment':
-          await deleteComment(id).unwrap();
-          await triggerGetPostById(id).unwrap();
+          await deleteComment(commentId).unwrap();
+          await refetchPosts();
           break;
         default:
           throw new Error('Неверный аргумент cardFor');
@@ -102,6 +109,21 @@ const Card: React.FC<Props> = ({
       }
     }
   };
+  const handleClickLike = async () => {
+    try {
+      likedByUser
+        ? await unLikePost(id).unwrap()
+        : await likePost({ postId: id }).unwrap();
+      await refetchPosts();
+    } catch (error) {
+      if (hasErrorField(error)) {
+        setError(error.data.error);
+      } else {
+        setError(error as string);
+      }
+    }
+  };
+
   return (
     <NextUiCard className="mb-5 p-2">
       <CardHeader className="justify-between items-center bg-transparent">
@@ -129,7 +151,7 @@ const Card: React.FC<Props> = ({
       {cardFor !== 'comment' && (
         <CardFooter className="gap-3">
           <div className="flex gap-5 items-center">
-            <div>
+            <div onClick={handleClickLike}>
               <MetaInfo
                 count={likesCount}
                 Icon={likedByUser ? FcDislike : MdOutlineFavoriteBorder}

@@ -1,7 +1,6 @@
 export type User = {
   id: string;
   email: string;
-  password: string;
   name?: string;
   avatarUrl?: string;
   dateOfBirth: Date;
@@ -21,9 +20,17 @@ export type UserDto = Omit<User, 'password' | 'email'>;
 
 export type Follows = {
   id: string;
-  follower: User;
+  follower: {
+    name: string;
+    avatarUrl: string;
+    id: string;
+  };
   followerId: string;
-  following: User;
+  following: {
+    name: string;
+    avatarUrl: string;
+    id: string;
+  };
   followingId: string;
 };
 export type Post = {
@@ -49,7 +56,10 @@ export type Like = {
 export type Comment = {
   id: string;
   content: string;
-  user: User;
+  user: {
+    avatarUrl: string;
+    name: string;
+  };
   userId: string;
   post: Post;
   postId: string;

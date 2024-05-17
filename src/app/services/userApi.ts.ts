@@ -3,7 +3,10 @@ import { api } from './api';
 
 export const userApi = api.injectEndpoints({
   endpoints: (builder) => ({
-    login: builder.mutation<{ token: string }, { email: string; password: string }>({
+    login: builder.mutation<
+      { token: string },
+      { email: string; password: string }
+    >({
       query: (userData) => ({
         url: '/login',
         method: 'POST',
@@ -31,12 +34,11 @@ export const userApi = api.injectEndpoints({
       query: (id) => ({
         url: `/users/${id}`,
         method: 'GET',
-        body: id,
       }),
     }),
     updateUser: builder.mutation<User, { userData: FormData; id: string }>({
       query: ({ userData, id }) => ({
-        url: `/updateUser/${id}`,
+        url: `/users/${id}`,
         method: 'PUT',
         body: userData,
       }),
