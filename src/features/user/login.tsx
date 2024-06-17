@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import Input from '../../components/input';
-import { Button, Link } from '@nextui-org/react';
-import { useLazyCurrentQuery, useLoginMutation } from '../../app/services/userApi.ts';
 import { useNavigate } from 'react-router-dom';
-import ErrorMessage from '../../components/error-message';
+
+import { Button, Link } from '@nextui-org/react';
+
+import {
+  useLazyCurrentQuery,
+  useLoginMutation,
+} from '../../app/services/userApi.ts';
+import Input from '../../components/Input';
+import ErrorMessage from '../../components/ErrorMessage';
 import { hasErrorField } from '../../utils/has-error-field';
 
 type Props = {
@@ -67,7 +72,11 @@ const Login: React.FC<Props> = ({ setSelected }) => {
       <ErrorMessage error={error} />
       <p className="text-center text-small">
         Нет аккаунта?{' '}
-        <Link size="sm" className="cursor-pointer" onPress={() => setSelected('sign-up')}>
+        <Link
+          size="sm"
+          className="cursor-pointer"
+          onPress={() => setSelected('sign-up')}
+        >
           Зарегистрируйтесь
         </Link>
       </p>

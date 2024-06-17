@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import { User } from '../../app/types';
-import { build } from 'vite';
 import { userApi } from '../../app/services/userApi.ts';
 import { RootState } from '../../app/store';
 
@@ -29,22 +28,32 @@ const slice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addMatcher(userApi.endpoints.login.matchFulfilled, (state, action) => {
-      state.token = action.payload.token;
-      state.isAuthentificated = true;
-    });
-    builder.addMatcher(userApi.endpoints.current.matchFulfilled, (state, action) => {
-      state.isAuthentificated = true;
-      state.current = action.payload;
-    });
-    builder.addMatcher(userApi.endpoints.getUserById.matchFulfilled, (state, action) => {
-      state.user = action.payload;
-    });
+    builder.addMatcher(
+      userApi.endpoints.login.matchFulfilled,
+      (state, action) => {
+        state.token = action.payload.token;
+        state.isAuthentificated = true;
+      },
+    );
+    builder.addMatcher(
+      userApi.endpoints.current.matchFulfilled,
+      (state, action) => {
+        state.isAuthentificated = true;
+        state.current = action.payload;
+      },
+    );
+    builder.addMatcher(
+      userApi.endpoints.getUserById.matchFulfilled,
+      (state, action) => {
+        state.user = action.payload;
+      },
+    );
   },
 });
 export const { logout, resetUser } = slice.actions;
 export default slice.reducer;
 
-export const selectIsAuthentificated = (state: RootState) => state.user.isAuthentificated;
+export const selectIsAuthentificated = (state: RootState) =>
+  state.user.isAuthentificated;
 export const selectCurrent = (state: RootState) => state.user.current;
 export const selectUser = (state: RootState) => state.user.user;

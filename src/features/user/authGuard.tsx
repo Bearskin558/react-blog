@@ -1,6 +1,8 @@
 import React from 'react';
-import { useCurrentQuery } from '../../app/services/userApi.ts';
+
 import { Spinner } from '@nextui-org/react';
+
+import { useCurrentQuery } from '../../app/services/userApi.ts.js';
 
 const AuthGuard = ({ children }: { children: JSX.Element }) => {
   const { isLoading } = useCurrentQuery();

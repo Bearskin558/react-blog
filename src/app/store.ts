@@ -3,7 +3,7 @@ import { combineSlices, configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
 
 import { api } from './services/api';
-import user from '../features/user/userSlice';
+import user from '../features/user/UserSlice';
 import { listenerMiddleware } from '../middleware/auth';
 
 export const store = configureStore({
@@ -12,7 +12,9 @@ export const store = configureStore({
     user,
   },
   middleware: (getDefaultMiddleware) => {
-    return getDefaultMiddleware().concat(api.middleware).prepend(listenerMiddleware.middleware);
+    return getDefaultMiddleware()
+      .concat(api.middleware)
+      .prepend(listenerMiddleware.middleware);
   },
 });
 

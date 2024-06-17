@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
-import Login from './login';
-import { useForm } from 'react-hook-form';
-import { useLazyCurrentQuery, useRegistrationMutation } from '../../app/services/userApi.ts';
 import { useNavigate } from 'react-router-dom';
-import Input from '../../components/input/';
+import { useForm } from 'react-hook-form';
+
 import { Button, Link } from '@nextui-org/react';
+
+import Input from '../../components/Input';
 import { hasErrorField } from '../../utils/has-error-field';
-import ErrorMessage from '../../components/error-message/index';
+import ErrorMessage from '../../components/ErrorMessage/index';
+import {
+  useLazyCurrentQuery,
+  useRegistrationMutation,
+} from '../../app/services/userApi.ts';
 
 type Register = {
   email: string;
@@ -18,7 +22,7 @@ type Props = {
   setSelected: (value: string) => void;
 };
 
-const Register: React.FC<Props> = ({ setSelected }) => {
+const Register = ({ setSelected }: Props) => {
   const {
     handleSubmit,
     control,
@@ -58,7 +62,13 @@ const Register: React.FC<Props> = ({ setSelected }) => {
         type="email"
         required="Обязательное поле"
       />
-      <Input control={control} name="name" label="Имя" type="text" required="Обязательное поле" />
+      <Input
+        control={control}
+        name="name"
+        label="Имя"
+        type="text"
+        required="Обязательное поле"
+      />
       <Input
         control={control}
         name="password"
@@ -69,7 +79,11 @@ const Register: React.FC<Props> = ({ setSelected }) => {
       <ErrorMessage error={error} />
       <p className="text-center text-small">
         Уже есть аккаунт?{' '}
-        <Link size="sm" className="cursor-pointer" onPress={() => setSelected('login')}>
+        <Link
+          size="sm"
+          className="cursor-pointer"
+          onPress={() => setSelected('login')}
+        >
           Войти
         </Link>
       </p>

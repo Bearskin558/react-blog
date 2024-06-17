@@ -5,15 +5,15 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
 import { store } from './app/store';
 import './index.css';
-import ThemeProvider from './components/theme-provider';
-import Auth from './pages/auth';
-import Layout from './components/layout';
-import Posts from './pages/posts';
-import CurrentPost from './pages/current-post';
-import UserProfile from './pages/user-profile';
-import Followers from './pages/followers';
-import Following from './pages/following';
-import AuthGuard from './features/user/authGuard';
+import ThemeProvider from './components/ThemeProvider';
+import Auth from './pages/Auth/Auth';
+import Layout from './components/Layout';
+import Posts from './pages/Posts/Posts';
+import CurrentPost from './pages/CurrentPost/CurrentPost';
+import UserProfile from './pages/UserProfile/UserProfile';
+import Followers from './pages/Followers/Followers';
+import Following from './pages/Following/Following';
+import AuthGuard from './features/user/AuthGuard';
 
 const container = document.getElementById('root');
 const router = createBrowserRouter([
